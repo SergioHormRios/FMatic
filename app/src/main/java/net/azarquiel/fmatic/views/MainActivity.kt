@@ -8,11 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
 
@@ -20,7 +16,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,10 +26,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         drawerLayout = binding.drawerLayout
 
         navView = binding.navView
