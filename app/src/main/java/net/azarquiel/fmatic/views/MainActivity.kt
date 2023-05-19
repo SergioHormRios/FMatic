@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
+import net.azarquiel.fmatic.ui.CalendarFragment
+import net.azarquiel.fmatic.ui.LoginFragment
+import net.azarquiel.fmatic.ui.PilotsFragment
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        setInitialFragment()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,31 +52,47 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         return true
     }
 
+    //Con este metodo al arrancar la aplicacion, nos aparecerá el fragmento que indiquemos
+    private fun setInitialFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.Frame, CalendarFragment())
+        fragmentTransaction.commit()
+    }
+
+
+    //Nos permitirá cambiar de fragmentos
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.Frame, fragment)
+        fragmentTransaction.commit()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         var fragment:Fragment? = null
         when (item.itemId) {
-            R.id.nav_pilotos -> {
-            }
+            R.id.nav_pilotos -> fragment = PilotsFragment()
+            R.id.nav_login -> fragment = LoginFragment()
+
             R.id.nav_circuitos -> {
+
             }
             R.id.nav_temporadas -> {
+
             }
         }
+        replaceFragment(fragment!!)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
     /*
-        Cuando pulsemos el botón de regreso mientras tenemos el
-        drawerLayout desplegado, se cerrara en vez de salir de
-        la Activity
-     */
+        Cuando pulsemos el botón de regreso mientras tenemos el drawerLayout desplegado,
+         se cerrara en vez de salir de la Activity
+    */
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            onBackPressedDispatcher.onBackPressed()
-        }
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) drawerLayout.closeDrawer(GravityCompat.START)
+        else onBackPressedDispatcher.onBackPressed()
     }
 
 }

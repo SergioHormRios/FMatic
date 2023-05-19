@@ -3,18 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_pilotos"
-            android:icon="@drawable/ic_pilotos"
-            android:title="@string/menu_pilotos" />
-        <item
-            android:id="@+id/nav_circuitos"
-            android:icon="@drawable/ic_circuitos"
-            android:title="@string/menu_circuitos" />
-        <item
-            android:id="@+id/nav_temporadas"
-            android:icon="@drawable/ic_temporadas"
-            android:title="@string/menu_temporadas" />
-    </group>
+
+    <item android:title="Login">
+        <menu>
+            <group
+                android:id="@+id/grpLogin"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_login"
+                    android:icon="@drawable/ic_login"
+                    android:title="@string/menu_login" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Contenido">
+        <menu>
+        <group
+            android:id="@+id/grpContent"
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_pilotos"
+                android:icon="@drawable/ic_pilotos"
+                android:title="@string/menu_pilotos" />
+            <item
+                android:id="@+id/nav_circuitos"
+                android:icon="@drawable/ic_circuitos"
+                android:title="@string/menu_circuitos" />
+            <item
+                android:id="@+id/nav_temporadas"
+                android:icon="@drawable/ic_temporadas"
+                android:title="@string/menu_temporadas" />
+        </group>
+        </menu>
+    </item>
+
+
 </menu>
