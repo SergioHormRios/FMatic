@@ -23,15 +23,15 @@
             android:id="@+id/grpContent"
             android:checkableBehavior="single">
             <item
-                android:id="@+id/nav_pilotos"
+                android:id="@+id/nav_drivers"
                 android:icon="@drawable/ic_pilotos"
                 android:title="@string/menu_pilotos" />
             <item
-                android:id="@+id/nav_circuitos"
+                android:id="@+id/nav_circuits"
                 android:icon="@drawable/ic_circuitos"
                 android:title="@string/menu_circuitos" />
             <item
-                android:id="@+id/nav_temporadas"
+                android:id="@+id/nav_seasons"
                 android:icon="@drawable/ic_temporadas"
                 android:title="@string/menu_temporadas" />
         </group>

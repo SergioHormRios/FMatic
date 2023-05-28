@@ -1,5 +1,6 @@
 package net.azarquiel.fmatic.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,12 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.navigation.NavigationView
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
+import net.azarquiel.fmatic.interfaces.GlobalFun
 import net.azarquiel.fmatic.ui.CalendarFragment
-import net.azarquiel.fmatic.ui.LoginFragment
-import net.azarquiel.fmatic.ui.PilotsFragment
+import net.azarquiel.fmatic.ui.DriversFragment
+
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
@@ -21,12 +25,14 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityMainBinding
 
+    /*Firebase - Auth*/
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarMain.toolbar)
 
         drawerLayout = binding.drawerLayout
@@ -42,9 +48,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         setInitialFragment()
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -71,17 +77,16 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         // Handle navigation view item clicks here.
         var fragment:Fragment? = null
         when (item.itemId) {
-            R.id.nav_pilotos -> fragment = PilotsFragment()
-            R.id.nav_login -> fragment = LoginFragment()
-
-            R.id.nav_circuitos -> {
+            R.id.nav_drivers -> fragment = DriversFragment()
+            R.id.nav_login -> startActivity(Intent(this, LoginActivity::class.java))
+            R.id.nav_circuits -> {
 
             }
-            R.id.nav_temporadas -> {
+            R.id.nav_seasons -> {
 
             }
         }
-        replaceFragment(fragment!!)
+        if (item.itemId != R.id.nav_login) replaceFragment(fragment!!)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }

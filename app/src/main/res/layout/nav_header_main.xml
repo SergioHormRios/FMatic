@@ -13,8 +13,8 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
         app:cardBackgroundColor="#C1B5B5"
         app:cardCornerRadius="40dp">
 

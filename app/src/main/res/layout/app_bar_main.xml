@@ -9,7 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F2201F1F"
+        android:background="@color/header_app"
         android:theme="@style/Theme.FMatic.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
