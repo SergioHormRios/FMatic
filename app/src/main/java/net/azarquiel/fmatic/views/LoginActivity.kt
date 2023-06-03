@@ -14,9 +14,9 @@ import net.azarquiel.fmatic.interfaces.GlobalFun
 class LoginActivity : AppCompatActivity(), GlobalFun{
 
     //Botones
-    private lateinit var GoogleLogBtn: Button
-    private lateinit var LoginBtn: Button
-    private lateinit var RegisterBtn: Button
+    private lateinit var googleLogBtn: Button
+    private lateinit var btnLogin: Button
+    private lateinit var registerBtn: Button
 
     //EdiText
     private lateinit var etEmail : EditText
@@ -36,44 +36,32 @@ class LoginActivity : AppCompatActivity(), GlobalFun{
 
     private fun initView() {
         title = "Autenticación"
-
+        val instance = FirebaseAuth.getInstance()
         //Asignamos los listener en tempo de ejecucion
-        RegisterBtn = findViewById(R.id.RegisteBtn)
-        RegisterBtn.setOnClickListener {
-            if(etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty()){
-                FirebaseAuth.getInstance()
+        registerBtn = findViewById(R.id.RegisteBtn)
+        registerBtn.setOnClickListener {
+            if(etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty())
+                instance
                     .createUserWithEmailAndPassword(etEmail.text.toString(),etPassword.text.toString())
                     //Comprobamos si la operacion de registro ha sido completada
                     .addOnCompleteListener{
-                        if (it.isSuccessful)
-                            openMainView(it.result?.user?.email ?: "",ProviderType.BASIC)
-                        else
-                            showMessage(this,"ERROR","ERROR, Usuario no registrado.")
+                        if (it.isSuccessful) openMainView(it.result?.user?.email ?: "",ProviderType.BASIC)
+                        else showMessage(this,"ERROR","ERROR, Usuario no registrado.")
+                    }
+        }
 
+        btnLogin = findViewById(R.id.btnLogin)
+        btnLogin.setOnClickListener {
+            if (etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty()) {
+                instance
+                    .signInWithEmailAndPassword( etEmail.text.toString(),etPassword.text.toString())
+                    //Comprobamos si la operacion de registro ha sido completada
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) openMainView(it.result?.user?.email ?: "", ProviderType.BASIC)
+                        else showMessage(this, "ERROR", "ERROR, Usuario no registrado.")
                     }
             }
         }
-
-        LoginBtn = findViewById(R.id.LoginBtn)
-        LoginBtn.setOnClickListener {
-            if(etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty()){
-                FirebaseAuth.getInstance()
-                    .signInWithEmailAndPassword(etEmail.text.toString(),etPassword.text.toString())
-                    //Comprobamos si la operacion de login ha sido completada
-                    .addOnCompleteListener{
-                        if (it.isSuccessful)
-                            openMainView(it.result?.user?.email ?: "",ProviderType.BASIC)
-                        else
-                            showMessage(this,"ERROR","ERROR, Usuario no registrado.")
-                    }
-            }
-        }
-
-        GoogleLogBtn = findViewById(R.id.LoginBtn)
-        GoogleLogBtn.setOnClickListener {
-
-        }
-
 
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
