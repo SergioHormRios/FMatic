@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.enums.ProviderType
-import net.azarquiel.fmatic.interfaces.GlobalFun
+import net.azarquiel.fmatic.interfaces.GlobalInterface
 
 
-class LoginActivity : AppCompatActivity(), GlobalFun{
+class LoginActivity : AppCompatActivity(), GlobalInterface{
 
     //Botones
     private lateinit var googleLogBtn: Button
@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity(), GlobalFun{
     private lateinit var etPassword: EditText
 
     //Firebase
-
+    private val instance = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +32,11 @@ class LoginActivity : AppCompatActivity(), GlobalFun{
         initView()
 
     }
-
-
     private fun initView() {
         title = "Autenticación"
-        val instance = FirebaseAuth.getInstance()
+
         //Asignamos los listener en tempo de ejecucion
-        registerBtn = findViewById(R.id.RegisteBtn)
+        registerBtn = findViewById(R.id.registeBtn)
         registerBtn.setOnClickListener {
             if(etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty())
                 instance
@@ -46,25 +44,38 @@ class LoginActivity : AppCompatActivity(), GlobalFun{
                     //Comprobamos si la operacion de registro ha sido completada
                     .addOnCompleteListener{
                         if (it.isSuccessful) openMainView(it.result?.user?.email ?: "",ProviderType.BASIC)
-                        else showMessage(this,"ERROR","ERROR, Usuario no registrado.")
+                        else showMessage(this,"ERROR","ERROR, El usuario ya se encuentra registrado.")
                     }
+            else
+                if (etEmail.text.isEmpty())
+                    showMessage(this, "ERROR", "No se ha introduccido ningun correo.")
+                else if(etPassword.text.isEmpty())
+                    showMessage(this, "ERROR", "No se ha introduccido ninguna contraseña.")
         }
 
-        btnLogin = findViewById(R.id.btnLogin)
+        btnLogin = findViewById(R.id.loginBtn)
         btnLogin.setOnClickListener {
-            if (etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty()) {
+            if (etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty())
                 instance
                     .signInWithEmailAndPassword( etEmail.text.toString(),etPassword.text.toString())
                     //Comprobamos si la operacion de registro ha sido completada
                     .addOnCompleteListener {
                         if (it.isSuccessful) openMainView(it.result?.user?.email ?: "", ProviderType.BASIC)
-                        else showMessage(this, "ERROR", "ERROR, Usuario no registrado.")
+                        else
+                            showMessage(this, "ERROR",
+                                "La contraseña o el correo no se han especificado correctamente."
+                            )
                     }
-            }
+            else
+                if (etEmail.text.isEmpty()) showMessage(this, "ERROR", "No se ha introduccido ningun correo.")
+                else if(etPassword.text.isEmpty()) showMessage(this, "ERROR", "No se ha introduccido ninguna contraseña.")
+
         }
 
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
+
+
     }
 
     private fun openMainView(email: String, provider:ProviderType) =

@@ -1,22 +1,29 @@
 package net.azarquiel.fmatic.views
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
-import net.azarquiel.fmatic.interfaces.GlobalFun
 import net.azarquiel.fmatic.ui.CalendarFragment
 import net.azarquiel.fmatic.ui.DriversFragment
+import net.azarquiel.fmatic.viewModel.MainViewModel
 
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +36,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
 
+    /* Sharepreference*/
+    private lateinit var perfs : SharedPreferences
+
+    /*Retrofit*/
+    private lateinit var viewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,6 +61,20 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         setInitialFragment()
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        //SetUp
+        val email = intent.getStringExtra("email") as String
+        val provider = intent.getStringExtra("provider") as String
+        setUp(email,provider)
+    }
+
+    private fun setUp(email: String, provider: String) {
+        navView.getHeaderView(0).findViewById<TextView>(R.id.tvMail).apply {
+            text = email
+        }
+
     }
 
 
@@ -78,15 +104,19 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         var fragment:Fragment? = null
         when (item.itemId) {
             R.id.nav_drivers -> fragment = DriversFragment()
-            R.id.nav_login -> startActivity(Intent(this, LoginActivity::class.java))
             R.id.nav_circuits -> {
 
             }
             R.id.nav_seasons -> {
 
             }
+            R.id.nav_logout -> {
+                FirebaseAuth.getInstance().signOut()
+                startActivity(Intent(this, LoginActivity::class.java))
+                Toast.makeText(this,"Se ha cerrado correctamente la session", Toast.LENGTH_SHORT).show()
+            }
         }
-        if (item.itemId != R.id.nav_login) replaceFragment(fragment!!)
+        if (item.itemId != R.id.nav_logout) replaceFragment(fragment!!)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
