@@ -1,11 +1,17 @@
 package net.azarquiel.fmatic.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import net.azarquiel.fmatic.R
+import net.azarquiel.fmatic.adapter.AdapterCalendar
+import net.azarquiel.fmatic.interfaces.GlobalInterface
+import net.azarquiel.fmatic.model.RaceCalendarEvents
+import net.azarquiel.fmatic.viewModel.MainViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,7 +23,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CalendarFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CalendarFragment : Fragment() {
+class CalendarFragment : Fragment(),GlobalInterface {
+    private lateinit var calendar: List<RaceCalendarEvents>
+    private val viewModel: MainViewModel = MainViewModel()
+    private lateinit var adapter: AdapterCalendar
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -56,4 +66,31 @@ class CalendarFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_calendar, container, false)
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onLaunchView()
+    }
+
+    private fun onLaunchView() {
+       getAllCalendars()
+        initRV()
+    }
+
+    private fun initRV() {
+        val rvCalendar = requireView().findViewById<RecyclerView>(R.id.rvCalendar)
+        adapter = AdapterCalendar(requireContext(),R.layout.row_calendar)
+        rvCalendar.adapter = adapter
+        rvCalendar.layoutManager = GridLayoutManager(requireContext(),1)
+    }
+
+    private fun getAllCalendars() {
+        viewModel.getRaceCalendar().observe(viewLifecycleOwner) { it ->
+            it?.let {
+                adapter.setRaceCalendar(it)
+                calendar = it
+            }
+        }
+
+    }
 }

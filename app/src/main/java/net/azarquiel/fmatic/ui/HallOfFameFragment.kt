@@ -1,5 +1,6 @@
 package net.azarquiel.fmatic.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.adapter.AdapterDrivers
 import net.azarquiel.fmatic.adapter.AdapterHallOfFame
+import net.azarquiel.fmatic.interfaces.GlobalInterface
 import net.azarquiel.fmatic.model.Drivers
 import net.azarquiel.fmatic.model.HallOfFames
 import net.azarquiel.fmatic.viewModel.MainViewModel
+import net.azarquiel.fmatic.views.MainActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +27,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HallOfFameFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HallOfFameFragment : Fragment() {
+class HallOfFameFragment : Fragment(), GlobalInterface {
     private lateinit var adapter: AdapterHallOfFame
     private lateinit var hallofFame: List<HallOfFames>
     private val viewModel: MainViewModel = MainViewModel()
@@ -73,7 +76,7 @@ class HallOfFameFragment : Fragment() {
     }
 
     private fun onLaunchView() {
-        getHallFame()
+        getAllHall()
         initRV()
     }
 
@@ -84,12 +87,12 @@ class HallOfFameFragment : Fragment() {
         rvHallOfFame.layoutManager = GridLayoutManager(requireContext(),1)
     }
 
-    private fun getHallFame() =
-        viewModel.getHallFame().observe(viewLifecycleOwner) { it ->
+    private fun getAllHall() {
+        viewModel.getHallOfFame().observe(viewLifecycleOwner) { it ->
             it?.let {
                 adapter.setHallOfFame(it)
                 hallofFame = it
             }
         }
-
+    }
 }

@@ -37,7 +37,7 @@ class AdapterDrivers (val context: Context, val layout: Int) : RecyclerView.Adap
 
         class ViewHolder(viewlayout: View, val context: Context) : RecyclerView.ViewHolder(viewlayout) {
             fun bind(dataItem: Drivers){
-               itemView.findViewById<TextView>(R.id.tvDriversName).apply { text = "${dataItem.firstname} ${dataItem.lastname}" }
+               itemView.findViewById<TextView>(R.id.tvRaceName).apply { text = "${dataItem.firstname} ${dataItem.lastname}" }
 
                 when(dataItem.lastname.toLowerCase()){
                     "albon" -> itemView.findViewById<ImageView>(R.id.ivDrivers).setImageResource(R.drawable.dr_albon)

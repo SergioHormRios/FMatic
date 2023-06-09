@@ -20,5 +20,9 @@ interface GlobalInterface {
              .show()
 
 
+    fun deleteCharInString(string: String, deleteChar: Char ) : String = string.split(deleteChar).toString()
+
+
+
 }
 

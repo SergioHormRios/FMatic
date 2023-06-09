@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.adapter.AdapterDrivers
 import net.azarquiel.fmatic.adapter.AdapterTeams
+import net.azarquiel.fmatic.interfaces.GlobalInterface
 import net.azarquiel.fmatic.model.Teams
 import net.azarquiel.fmatic.viewModel.MainViewModel
 
@@ -23,9 +24,9 @@ private const val ARG_PARAM2 = "param2"
  * Use the [TeamsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TeamsFragment : Fragment() {
+class TeamsFragment : Fragment(), GlobalInterface {
     private lateinit var adapter: AdapterTeams
-    private lateinit var teams: List<Teams>
+    private var teams: List<Teams> = emptyList()
     private val viewModel: MainViewModel = MainViewModel()
 
 
@@ -85,12 +86,12 @@ class TeamsFragment : Fragment() {
         rvTeams.layoutManager = GridLayoutManager(requireContext(),1)
     }
 
-    private fun getAllTeams() =
+    private fun getAllTeams() {
         viewModel.getAllTeams().observe(viewLifecycleOwner) { it ->
             it?.let {
                 adapter.setTeams(it)
                 teams = it
             }
         }
-
+    }
 }

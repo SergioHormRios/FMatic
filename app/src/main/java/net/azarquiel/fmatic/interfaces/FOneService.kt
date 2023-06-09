@@ -9,8 +9,14 @@ import retrofit2.http.*
 interface FOneService {
     @GET("drivers")
     fun getAllDrivers(): Deferred<Response<Request>>
+
     @GET("teams")
     fun getAllTeams(): Deferred<Response<Request>>
+
     @GET("drivers/hall-of-fame")
     fun getHallFame(): Deferred<Response<Request>>
+
+    @GET("schedule/race-schedule")
+    fun getRaceCalendar(): Deferred<Response<Request>>
+    fun getNextRounds(): Deferred<Response<Request>>
 }

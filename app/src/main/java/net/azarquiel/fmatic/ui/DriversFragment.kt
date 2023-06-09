@@ -21,7 +21,7 @@ private const val ARG_PARAM2 = "param2"
 //variables
 class DriversFragment : Fragment(), GlobalInterface{
     private lateinit var adapter: AdapterDrivers
-    private lateinit var drivers: List<Drivers>
+    private var drivers: List<Drivers> = emptyList()
     private val viewModel: MainViewModel = MainViewModel()
 
     // TODO: Rename and change types of parameters
@@ -70,18 +70,18 @@ class DriversFragment : Fragment(), GlobalInterface{
     }
 
     private fun initRV() {
-        val rvTeams = requireView().findViewById<RecyclerView>(R.id.rvTeams)
+        val rvDrivers = requireView().findViewById<RecyclerView>(R.id.rvDrivers)
         adapter = AdapterDrivers(requireContext(),R.layout.row_drivers)
-        rvTeams.adapter = adapter
-        rvTeams.layoutManager = GridLayoutManager(requireContext(),1)
+        rvDrivers.adapter = adapter
+        rvDrivers.layoutManager = GridLayoutManager(requireContext(),1)
     }
 
-    private fun getAllDrivers() =
+    private fun getAllDrivers() {
         viewModel.getAllDrivers().observe(viewLifecycleOwner) { it ->
             it?.let {
                 adapter.setDrivers(it)
                 drivers = it
             }
         }
-
+    }
 }

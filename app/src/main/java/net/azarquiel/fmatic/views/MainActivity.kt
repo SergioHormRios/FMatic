@@ -20,6 +20,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
+import net.azarquiel.fmatic.ui.CalendarFragment
 import net.azarquiel.fmatic.ui.DriversFragment
 import net.azarquiel.fmatic.ui.HallOfFameFragment
 import net.azarquiel.fmatic.ui.TeamsFragment
@@ -118,12 +119,13 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.nav_drivers -> fragment = DriversFragment()
             R.id.nav_teams -> fragment = TeamsFragment()
             R.id.nav_hall -> fragment = HallOfFameFragment()
+            R.id.nav_seasons -> fragment = CalendarFragment()
+
 //            R.id.nav_circuits -> {
 //
 //            }
-//            R.id.nav_seasons -> {
-//
-//            }
+
+
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, LoginActivity::class.java))

@@ -9,7 +9,7 @@
 
     <string name="menu_pilotos">Pilotos</string>
     <string name="menu_circuitos">Circuitos</string>
-    <string name="menu_temporadas">Temporadas</string>
+    <string name="menu_temporadas">Calendario</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- Strings related to login -->

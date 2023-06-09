@@ -1,8 +1,6 @@
 package net.azarquiel.fmatic.api
 
-import net.azarquiel.fmatic.model.Drivers
-import net.azarquiel.fmatic.model.HallOfFames
-import net.azarquiel.fmatic.model.Teams
+import net.azarquiel.fmatic.model.*
 
 class MainRepository {
 
@@ -23,10 +21,27 @@ class MainRepository {
         }
         return emptyList()
     }
-    suspend fun getHallFame(): List<HallOfFames> {
+
+    suspend fun getHallOfFame(): List<HallOfFames> {
         val webResponse = service.getHallFame().await()
         if (webResponse.isSuccessful) {
-            return webResponse.body()!!.hallOfFame
+            return webResponse.body()!!.hallOfFames
+        }
+        return emptyList()
+    }
+
+    suspend fun getRaceCalendar(): List<RaceCalendarEvents> {
+        val webResponse = service.getRaceCalendar().await()
+        if (webResponse.isSuccessful) {
+            return webResponse.body()!!.raceCalendarEvents
+        }
+        return emptyList()
+    }
+
+    suspend fun getNextRounds(): List<NextRoundEvents> {
+        val webResponse = service.getNextRounds().await()
+        if (webResponse.isSuccessful) {
+            return webResponse.body()!!.nextRoundEvents
         }
         return emptyList()
     }
