@@ -72,6 +72,7 @@ class LoginActivity : AppCompatActivity(), GlobalInterface{
 
         }
 
+
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
 

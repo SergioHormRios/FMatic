@@ -18,11 +18,11 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
-import net.azarquiel.fmatic.ui.CalendarFragment
 import net.azarquiel.fmatic.ui.DriversFragment
+import net.azarquiel.fmatic.ui.HallOfFameFragment
+import net.azarquiel.fmatic.ui.TeamsFragment
 import net.azarquiel.fmatic.viewModel.MainViewModel
 
 
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         toggle.syncState()
         setInitialFragment()
 
+        //Api provider
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         //SetUp
@@ -75,6 +76,17 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             text = email
         }
 
+        perfs = getSharedPreferences("profile",Context.MODE_PRIVATE)
+        getUserSH() //Obtendremos el usuario del SharePreference (si existe)
+
+    }
+    private fun getUserSH() {
+        val nickTXT = perfs.getString("nick", null)
+        val mailTXT = perfs.getString("mail", null)
+
+        if (nickTXT != null && mailTXT != null){
+          //  nickTXT = Gson().toJson(nickTXT, )
+        }
     }
 
 
@@ -87,7 +99,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     //Con este metodo al arrancar la aplicacion, nos aparecerá el fragmento que indiquemos
     private fun setInitialFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.Frame, CalendarFragment())
+        fragmentTransaction.add(R.id.Frame, DriversFragment())
         fragmentTransaction.commit()
     }
 
@@ -104,12 +116,14 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         var fragment:Fragment? = null
         when (item.itemId) {
             R.id.nav_drivers -> fragment = DriversFragment()
-            R.id.nav_circuits -> {
-
-            }
-            R.id.nav_seasons -> {
-
-            }
+            R.id.nav_teams -> fragment = TeamsFragment()
+            R.id.nav_hall -> fragment = HallOfFameFragment()
+//            R.id.nav_circuits -> {
+//
+//            }
+//            R.id.nav_seasons -> {
+//
+//            }
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, LoginActivity::class.java))

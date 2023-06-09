@@ -7,9 +7,10 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface FOneService {
-    // Trae todos los pilotos de las temporadas
     @GET("drivers")
     fun getAllDrivers(): Deferred<Response<Request>>
-
-
+    @GET("teams")
+    fun getAllTeams(): Deferred<Response<Request>>
+    @GET("drivers/hall-of-fame")
+    fun getHallFame(): Deferred<Response<Request>>
 }

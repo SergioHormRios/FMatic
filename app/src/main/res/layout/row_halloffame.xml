@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
 
-    app:cardBackgroundColor="#534691"
-    card_view:cardCornerRadius="16dp"
-    card_view:cardElevation="1dp"
+    app:cardBackgroundColor="#F2171616"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="5dp"
     card_view:cardUseCompatPadding="false"
     card_view:contentPadding="10dp">
 
@@ -18,14 +18,16 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvDriverName"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvHallOfFame"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Andalucia"
+            android:gravity="center_horizontal"
+            android:text="Fernando Alonso - 2007, 2008"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

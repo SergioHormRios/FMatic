@@ -24,4 +24,6 @@
     <string name="menu_login">Login</string>
     <string name="your_web_client_id">client</string>
     <string name="menu_logout">Logout</string>
+    <string name="menu_teams">Escuderia</string>
+    <string name="menu_hall">Hall Of Fame</string>
 </resources>

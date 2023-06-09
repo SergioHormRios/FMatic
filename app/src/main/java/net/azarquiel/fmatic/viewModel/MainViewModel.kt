@@ -7,6 +7,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.azarquiel.fmatic.api.MainRepository
 import net.azarquiel.fmatic.model.Drivers
+import net.azarquiel.fmatic.model.HallOfFames
+import net.azarquiel.fmatic.model.Teams
 
 class MainViewModel: ViewModel() {
     private var repository: MainRepository = MainRepository()
@@ -18,5 +20,18 @@ class MainViewModel: ViewModel() {
         }
         return drivers
     }
-
+    fun getAllTeams(): MutableLiveData<List<Teams>> {
+        val teams = MutableLiveData<List<Teams>>()
+        GlobalScope.launch(Dispatchers.Main) {
+            teams.value = repository.getAllTeams()
+        }
+        return teams
+    }
+    fun getHallFame(): MutableLiveData<List<HallOfFames>> {
+        val hallFame = MutableLiveData<List<HallOfFames>>()
+        GlobalScope.launch(Dispatchers.Main) {
+            hallFame.value = repository.getHallFame()
+        }
+        return hallFame
+    }
 }
