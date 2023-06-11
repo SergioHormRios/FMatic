@@ -18,5 +18,12 @@ interface FOneService {
 
     @GET("schedule/race-schedule")
     fun getRaceCalendar(): Deferred<Response<Request>>
+    @GET("schedule/race-schedule")
     fun getNextRounds(): Deferred<Response<Request>>
+
+    @GET("drivers/details/{namedriver}")
+    fun getDriverDetails( @Path("namedriver") nameDriver: String ): Deferred<Response<Request>>
+
+    @GET("teams/details/{nameteam}")
+    fun getTeamDetails(@Path("nameteam") nameTeam: String): Deferred<Response<Request>>
 }

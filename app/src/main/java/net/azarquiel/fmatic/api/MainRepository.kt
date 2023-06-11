@@ -46,4 +46,20 @@ class MainRepository {
         return emptyList()
     }
 
+    suspend fun getDriverDetails(nameDrivers: String): DriverDetail? {
+        var driverDetail: DriverDetail? = null
+        val webResponse = service.getDriverDetails(nameDrivers).await()
+        if (webResponse.isSuccessful) {
+            driverDetail = webResponse.body()!!.driverDetails
+        }
+        return driverDetail
+    }
+    suspend fun getTeamDetails(nameTeam: String): TeamDetail? {
+        var teamDetail: TeamDetail? = null
+        val webResponse = service.getTeamDetails(nameTeam).await()
+        if (webResponse.isSuccessful) {
+            teamDetail = webResponse.body()!!.teamDetails
+        }
+        return teamDetail
+    }
 }

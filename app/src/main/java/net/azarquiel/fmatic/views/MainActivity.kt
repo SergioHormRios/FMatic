@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -20,14 +21,12 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
-import net.azarquiel.fmatic.ui.CalendarFragment
-import net.azarquiel.fmatic.ui.DriversFragment
-import net.azarquiel.fmatic.ui.HallOfFameFragment
-import net.azarquiel.fmatic.ui.TeamsFragment
+import net.azarquiel.fmatic.interfaces.GlobalInterface
+import net.azarquiel.fmatic.model.Drivers
+import net.azarquiel.fmatic.model.Teams
+import net.azarquiel.fmatic.ui.*
 import net.azarquiel.fmatic.viewModel.MainViewModel
-
-
-class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener, GlobalInterface {
 
     private lateinit var navView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
@@ -68,11 +67,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         //SetUp
         val email = intent.getStringExtra("email") as String
-        val provider = intent.getStringExtra("provider") as String
-        setUp(email,provider)
+
+        setUp(email)
     }
 
-    private fun setUp(email: String, provider: String) {
+    private fun setUp(email: String) {
         navView.getHeaderView(0).findViewById<TextView>(R.id.tvMail).apply {
             text = email
         }
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     //Con este metodo al arrancar la aplicacion, nos aparecerá el fragmento que indiquemos
     private fun setInitialFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.Frame, DriversFragment())
+        fragmentTransaction.add(R.id.Frame, NextRoundFragment())
         fragmentTransaction.commit()
     }
 
@@ -120,12 +119,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.nav_teams -> fragment = TeamsFragment()
             R.id.nav_hall -> fragment = HallOfFameFragment()
             R.id.nav_seasons -> fragment = CalendarFragment()
-
-//            R.id.nav_circuits -> {
-//
-//            }
-
-
             R.id.nav_logout -> {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -146,4 +139,37 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         else onBackPressedDispatcher.onBackPressed()
     }
 
+    //OnClick Views
+    fun onClickDriver(v: View){
+        val firtname = (v.tag as Drivers).firstname
+        val lastname = (v.tag as Drivers).lastname
+
+        val driver = firtname + lastname
+
+        val bundle = Bundle()
+        bundle.putString("driver", driver.toLowerCase()) // Puedes agregar varios pares clave-valor si quieres
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.Frame,DriverDetailFragment().apply {
+                arguments = bundle
+            })
+            .commit()
+    }
+
+    fun onClickTeam(v: View){
+        val teamName = (v.tag as Teams).teamName
+
+        val bundle = Bundle()
+        bundle.putString("team", setApiRefTeams(teamName)) // Puedes agregar varios pares clave-valor si quieres
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.Frame,TeamDetailFragment().apply {
+                arguments = bundle
+            })
+            .commit()
+    }
 }
+
+

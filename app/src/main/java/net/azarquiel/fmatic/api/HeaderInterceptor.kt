@@ -9,7 +9,7 @@ class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val modifiedRequest = originalRequest.newBuilder()
-            .header("X-RapidAPI-Key", "09f05e99bdmsha0d010ec4cc31a5p1fdf37jsn155d2759741d")
+            .header("X-RapidAPI-Key", "8e182c78cbmsh7227a4c08863c27p180bc9jsn244bd6f75d2c")
             .header("X-RapidAPI-Host", "fia-formula-1-championship-statistics.p.rapidapi.com")
             .build()
         return chain.proceed(modifiedRequest)

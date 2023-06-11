@@ -7,7 +7,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import net.azarquiel.fmatic.R
-import net.azarquiel.fmatic.enums.ProviderType
 import net.azarquiel.fmatic.interfaces.GlobalInterface
 
 
@@ -43,7 +42,7 @@ class LoginActivity : AppCompatActivity(), GlobalInterface{
                     .createUserWithEmailAndPassword(etEmail.text.toString(),etPassword.text.toString())
                     //Comprobamos si la operacion de registro ha sido completada
                     .addOnCompleteListener{
-                        if (it.isSuccessful) openMainView(it.result?.user?.email ?: "",ProviderType.BASIC)
+                        if (it.isSuccessful) openMainView(it.result?.user?.email ?: "")
                         else showMessage(this,"ERROR","ERROR, El usuario ya se encuentra registrado.")
                     }
             else
@@ -60,7 +59,7 @@ class LoginActivity : AppCompatActivity(), GlobalInterface{
                     .signInWithEmailAndPassword( etEmail.text.toString(),etPassword.text.toString())
                     //Comprobamos si la operacion de registro ha sido completada
                     .addOnCompleteListener {
-                        if (it.isSuccessful) openMainView(it.result?.user?.email ?: "", ProviderType.BASIC)
+                        if (it.isSuccessful) openMainView(it.result?.user?.email ?: "")
                         else
                             showMessage(this, "ERROR",
                                 "La contraseña o el correo no se han especificado correctamente."
@@ -79,12 +78,11 @@ class LoginActivity : AppCompatActivity(), GlobalInterface{
 
     }
 
-    private fun openMainView(email: String, provider:ProviderType) =
+    private fun openMainView(email: String) =
         startActivity(
             Intent(this, MainActivity::class.java).apply {
                 //Al ya tenerlo instanciado podremos mandar los datos que queramos
                 putExtra("email",email)
-                putExtra("provider", provider.name)
             }
         )
 

@@ -48,4 +48,20 @@ class MainViewModel: ViewModel() {
         }
         return nextRound
     }
+
+    fun getDriverDetails(nameDriver:String): MutableLiveData<DriverDetail> {
+        val driver = MutableLiveData<DriverDetail>()
+        GlobalScope.launch(Dispatchers.Main) {
+            driver.value = repository.getDriverDetails(nameDriver)
+        }
+        return driver
+    }
+
+    fun getTeamDetails(nameTeam:String): MutableLiveData<TeamDetail> {
+        val team = MutableLiveData<TeamDetail>()
+        GlobalScope.launch(Dispatchers.Main) {
+            team.value = repository.getTeamDetails(nameTeam)
+        }
+        return team
+    }
 }

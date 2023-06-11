@@ -2,10 +2,10 @@ package net.azarquiel.fmatic.model
 
 data class Request(
     val drivers: List<Drivers>,
-    val driverDetail: List<DriverDetail>,
+    val driverDetails: DriverDetail,
     val hallOfFames: List<HallOfFames>,
     val teams: List<Teams>,
-    val teamDetail: List<TeamDetail>,
+    val teamDetails: TeamDetail,
     val raceCalendarEvents: List<RaceCalendarEvents>,
     val nextRoundEvents: List<NextRoundEvents>)
 
@@ -19,10 +19,6 @@ data class DriverDetail(
     val points:String,
     val grandsPrixEntered:String,
     val worldChampionships:String,
-    val highestRaceFinish:String,
-    val highestGridPosition:String,
-    val dateOfBirth:String,
-    val placeOfBirth:String,
     val firstname:String,
     val lastname:String)
 
@@ -41,7 +37,8 @@ data class TeamDetail(
     val worldChampionships:String,
     val polePositions:String,
     val fastestLaps:String,
-    val teamName:String
+    val teamName:String,
+    val drivers: List<Drivers>
 )
 
 //Calendar
