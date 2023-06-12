@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
 import net.azarquiel.fmatic.interfaces.GlobalInterface
@@ -76,18 +77,18 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             text = email
         }
 
-        perfs = getSharedPreferences("profile",Context.MODE_PRIVATE)
-        getUserSH() //Obtendremos el usuario del SharePreference (si existe)
+//        perfs = getSharedPreferences("profile",Context.MODE_PRIVATE)
+//        getUserSH() //Obtendremos el usuario del SharePreference (si existe)
 
     }
-    private fun getUserSH() {
-        val nickTXT = perfs.getString("nick", null)
-        val mailTXT = perfs.getString("mail", null)
-
-        if (nickTXT != null && mailTXT != null){
-          //  nickTXT = Gson().toJson(nickTXT, )
-        }
-    }
+//    private fun getUserSH() {
+//        var nickTXT = perfs.getString("nick", null)
+//        var mailTXT = perfs.getString("mail", null)
+//
+//        if (nickTXT != null && mailTXT != null){
+//            nickTXT = Gson().fromJson(nickTXT, String::class.java )
+//        }
+//    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

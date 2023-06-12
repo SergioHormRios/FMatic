@@ -8,8 +8,8 @@
     android:background="@color/bodyApp">
 
     <ImageView
-        android:layout_width="345dp"
-        android:layout_height="284dp"
+        android:layout_width="367dp"
+        android:layout_height="294dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,10 +77,12 @@
 
         </LinearLayout>
 
-        <com.google.android.gms.common.SignInButton
+        <Button
             android:id="@+id/googleBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Google" />
 
     </LinearLayout>
 

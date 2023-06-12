@@ -37,10 +37,6 @@
                 android:icon="@drawable/ic_pilotos"
                 android:title="@string/menu_pilotos" />
             <item
-                android:id="@+id/nav_circuits"
-                android:icon="@drawable/ic_circuitos"
-                android:title="@string/menu_circuitos" />
-            <item
                 android:id="@+id/nav_seasons"
                 android:icon="@drawable/ic_temporadas"
                 android:title="@string/menu_temporadas" />
