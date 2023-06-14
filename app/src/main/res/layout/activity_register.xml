@@ -29,7 +29,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etNickRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Nick"
+            android:inputType="textEmailAddress" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <EditText
+            android:id="@+id/etEmailRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -41,7 +53,7 @@
             android:layout_height="10dp" />
 
         <EditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etPasswordRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -59,34 +71,15 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/registeBtn"
+                android:id="@+id/btnRegiste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/header_app"
                 android:text="Registrar" />
 
-            <Button
-                android:id="@+id/loginBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/header_app"
-                android:text="Acceder" />
-
         </LinearLayout>
 
-        <Button
-            android:id="@+id/googleBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/header_app"
-            android:drawableLeft="@drawable/googleg_standard_color_18"
-
-            android:text="Google" />
 
     </LinearLayout>
 

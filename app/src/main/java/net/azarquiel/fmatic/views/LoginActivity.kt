@@ -1,12 +1,13 @@
 package net.azarquiel.fmatic.views
 
+import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
@@ -33,7 +34,16 @@ class LoginActivity : AppCompatActivity(), GlobalInterface{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        session()
         initView()
+
+    }
+    private fun session() {
+        val perfs = getSharedPreferences(getString(R.string.perfs_file), Context.MODE_PRIVATE)
+        val email = perfs.getString("email", null)
+        val name = perfs.getString("name", null)
+
+        if (email!= null && name != null)  openMainView(email, name)
 
     }
     private fun initView() {
@@ -42,19 +52,7 @@ class LoginActivity : AppCompatActivity(), GlobalInterface{
         //Asignamos los listener en tempo de ejecucion
         registerBtn = findViewById(R.id.registeBtn)
         registerBtn.setOnClickListener {
-            if(etEmail.text.isNotEmpty() && etPassword.text.isNotEmpty())
-                instance
-                    .createUserWithEmailAndPassword(etEmail.text.toString(),etPassword.text.toString())
-                    //Comprobamos si la operacion de registro ha sido completada
-                    .addOnCompleteListener{
-                        if (it.isSuccessful) openMainView(it.result?.user?.email ?: "", "")
-                        else showMessage(this,"ERROR","ERROR, El usuario ya se encuentra registrado.")
-                    }
-            else
-                if (etEmail.text.isEmpty())
-                    showMessage(this, "ERROR", "No se ha introduccido ningun correo.")
-                else if(etPassword.text.isEmpty())
-                    showMessage(this, "ERROR", "No se ha introduccido ninguna contraseña.")
+          startActivity(Intent(this,RegisterActivity::class.java))
         }
 
         btnLogin = findViewById(R.id.loginBtn)
@@ -122,8 +120,9 @@ class LoginActivity : AppCompatActivity(), GlobalInterface{
             Intent(this, MainActivity::class.java).apply {
                 //Al ya tenerlo instanciado podremos mandar los datos que queramos
                 putExtra("email",email)
-                if (name != "")
-                    putExtra("name",name)
+                putExtra("name",name)
+
+
             }
         )
 

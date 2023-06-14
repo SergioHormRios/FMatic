@@ -19,7 +19,6 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
 import net.azarquiel.fmatic.R
 import net.azarquiel.fmatic.databinding.ActivityMainBinding
 import net.azarquiel.fmatic.interfaces.GlobalInterface
@@ -27,6 +26,7 @@ import net.azarquiel.fmatic.model.Drivers
 import net.azarquiel.fmatic.model.Teams
 import net.azarquiel.fmatic.ui.*
 import net.azarquiel.fmatic.viewModel.MainViewModel
+
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener, GlobalInterface {
 
     private lateinit var navView: NavigationView
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private lateinit var signInRequest: BeginSignInRequest
 
     /* Sharepreference*/
-    private lateinit var perfs : SharedPreferences
+    private lateinit var perfs : SharedPreferences.Editor
 
     /*Retrofit*/
     private lateinit var viewModel: MainViewModel
@@ -68,28 +68,38 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         //SetUp
         val email = intent.getStringExtra("email") as String
+        val name = intent.getStringExtra("name") as String
+        setUp(email,name)
 
-        setUp(email)
+        perfs = getSharedPreferences(getString(R.string.perfs_file), Context.MODE_PRIVATE).edit()
+
+        perfs.putString("email", email)
+        perfs.putString("name",name)
+        perfs.apply()
     }
 
-    private fun setUp(email: String) {
+    private fun setUp(email: String, nick: String) {
         navView.getHeaderView(0).findViewById<TextView>(R.id.tvMail).apply {
             text = email
         }
 
-//        perfs = getSharedPreferences("profile",Context.MODE_PRIVATE)
-//        getUserSH() //Obtendremos el usuario del SharePreference (si existe)
+        if (nick != "")
+            navView.getHeaderView(0).findViewById<TextView>(R.id.tvName).apply {
+                text = nick
+            }
+
 
     }
-//    private fun getUserSH() {
-//        var nickTXT = perfs.getString("nick", null)
-//        var mailTXT = perfs.getString("mail", null)
-//
-//        if (nickTXT != null && mailTXT != null){
-//            nickTXT = Gson().fromJson(nickTXT, String::class.java )
-//        }
-//    }
 
+    private fun logout() {
+        FirebaseAuth.getInstance().signOut()
+
+        perfs.clear()
+        perfs.apply()
+
+        startActivity(Intent(this, LoginActivity::class.java))
+        Toast.makeText(this,"Se ha cerrado correctamente la session", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -120,16 +130,14 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             R.id.nav_teams -> fragment = TeamsFragment()
             R.id.nav_hall -> fragment = HallOfFameFragment()
             R.id.nav_seasons -> fragment = CalendarFragment()
-            R.id.nav_logout -> {
-                FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(this, LoginActivity::class.java))
-                Toast.makeText(this,"Se ha cerrado correctamente la session", Toast.LENGTH_SHORT).show()
-            }
+            R.id.nav_logout -> logout()
         }
         if (item.itemId != R.id.nav_logout) replaceFragment(fragment!!)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
+
 
     /*
         Cuando pulsemos el botón de regreso mientras tenemos el drawerLayout desplegado,

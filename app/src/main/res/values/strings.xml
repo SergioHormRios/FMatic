@@ -26,4 +26,5 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_teams">Escuderia</string>
     <string name="menu_hall">Hall Of Fame</string>
+    <string name="perfs_file">net.azarquiel.fmatic.PREFERENCE_FILE_KEY</string>
 </resources>
